@@ -59,4 +59,5 @@ func attack(entity: Entity, damage: int):
 	else:
 		print("Missed Hit")
 	
+	await 1
 	change_current_entity(current_entity)

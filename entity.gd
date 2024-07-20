@@ -4,6 +4,8 @@ class_name Entity
 signal PlayTurned(entity: Entity)
 signal Attack(entity: Entity, damage: int)
 
+var close_range: bool
+
 var attack: int
 var quick_attack: int
 var normal_attack: int
@@ -33,3 +35,12 @@ func off_active() -> void:
 
 func damage(attack_damage: float):
 	current_health -= attack_damage
+
+#SIGNALS
+func _on_attack_area_body_entered(_body):
+	#must have an area2D called AttackArea
+	close_range = true
+
+func _on_attack_area_body_exited(_body):
+	#must have an area2D called AttackArea
+	close_range = false

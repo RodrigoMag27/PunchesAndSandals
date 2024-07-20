@@ -19,8 +19,6 @@ var player_max_health: int = 100
 var player_health: int
 var player_defense: int = 10
 
-var close_range: bool = false
-
 var player_animation: AnimationPlayer
 
 var UI: Node2D
@@ -148,10 +146,3 @@ func _on_high_kick_pressed():
 func _on_moving_timer_timeout():
 	#must have a timer called MovingTimer
 	PlayTurned.emit(self)
-
-func _on_attack_area_body_entered(_body):
-	#must have an area2D called AttackArea
-	close_range = true
-
-func _on_attack_area_body_exited(_body):
-	close_range = false
