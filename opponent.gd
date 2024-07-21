@@ -1,5 +1,5 @@
 extends Entity
-class_name opponent
+class_name Opponent
 
 #actions
 var moving: bool
@@ -30,7 +30,7 @@ var jump_acceleration: float
 var target_velocity: Vector2 = Vector2.ZERO
 
 #animation variables
-var opponent_animation: AnimationPlayer
+@onready var opponent_animation: AnimationPlayer = $AnimationPlayer
 
 func on_active():
 	if close_range:
@@ -44,14 +44,13 @@ func on_active():
 			power()
 		if random_number == 3:
 			move_backward()
-		
 	else:
 		#He has to charge or move forward
 		var random_number = randi() %2
 		if random_number == 0:
 			charge()
 		if random_number == 1:
-			move_backward()
+			move_forward()
 
 func off_active():
 	moving = false
@@ -70,6 +69,7 @@ func _ready():
 	power_attack = opponent_power
 	max_health = opponent_max_health
 	current_health = opponent_health
+	current_health = max_health
 	defense = opponent_defense
 	
 	#Setting up the moving variables
@@ -136,6 +136,14 @@ func power():
 
 
 #SIGNALS
-func _on_moving_timer_timeout():
 	#must have a timer called MovingTimer
+func _on_moving_timer_timeout():
 	PlayTurned.emit(self)
+
+func _on_attack_area_body_entered(_body):
+	#must have an area2D called AttackArea
+	close_range = true
+
+func _on_attack_area_body_exited(_body):
+	#must have an area2D called AttackArea
+	close_range = false
